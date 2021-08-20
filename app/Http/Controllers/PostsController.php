@@ -13,8 +13,20 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::orderBy('created_at', 'desc')->get();
         return view('posts.index')->with('posts', $posts);
+
+        // or take how many you want by declare take()
+        // $posts = Post::orderBy('title', 'asc')take(1)->get();
+
+        // find all data from database
+        // Post::all()
+
+        // find data with title of post two only
+        // $posts = Post::where('title', 'Post Two')->get();
+
+        // or use DB: declare use DB at the top
+        // $posts = DB::select('SELECT * FROM posts');
     }
 
     /**
@@ -24,7 +36,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -35,7 +47,19 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $this->validate($request, [
+             'title' => 'required',
+             'body' => 'required'
+         ]);
+         
+        //  create post
+        $post = new Post;
+        $post->title = $request->input('title');
+        $post->body = $request->input('body');
+        $post->save();
+
+        // return created post to posts route with message success
+        return redirect('/posts')->with('success', 'Post Created');
     }
 
     /**
