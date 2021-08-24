@@ -15,4 +15,10 @@ class Post extends Model
     public $primaryKey = 'id';
     // Timestamps
     public $timestamps = true;
+    // create relationship
+    // what it says is: A post has a relationship with user and it
+    // belong to a user
+    public function user() {
+        return $this->belongsTo('App\Models\User');
+    }
 }

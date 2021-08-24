@@ -16,10 +16,36 @@
 
                     {{-- display your blog post --}}
                     <a href="/posts/create" class="btn btn-primary">Create Post</a>
-                    <h4 class="mt-3">Your blog posts</h4>
+                    <h3 class="mt-3">Your blog posts</h3>
+
+                    @if(count($posts) > 0)
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Title</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        {{-- loop through for specific user --}}
+                        @foreach($posts as $post)
+                            <tr>
+                                <td>{{$post->title}}</td>
+                                <td><a class="btn btn-outline-dark" href="/posts/{{$post->id}}/edit">Edit</a></td>
+                                <td>
+                                    {{-- delete btn --}}
+                                    {!!Form::open(['action' => ['App\Http\Controllers\PostsController@destroy', $post->id], 'method' => 'POST', 'class' => 'float-right'])!!}
+                                    {{Form::hidden('_method', 'DELETE')}}
+                                    {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+                                    {!!Form::close()!!}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                    @else
+                        <p>You have no posts</p>
+                    @endif
                 </div>
             </div>
-        </div>
+        </div> 
     </div>
 </div>
 @endsection
