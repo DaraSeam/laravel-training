@@ -2,7 +2,10 @@
 @section('content')
 <div class="container mt-3">
     <a href="/posts" class="btn btn-default btn-dark">Go Back</a>
+    <br>
     <h1 class="mt-3"> {{$post->title}} </h1>
+    {{-- images --}}
+    <img style="width: 100%" src="/storage/cover_images/{{$post->cover_image}}">
     <div>
         {!!$post->body!!}
     </div>
