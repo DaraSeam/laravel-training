@@ -10,13 +10,19 @@
     <small>Written on {{$post->created_at}} by {{$post->user->name}}</small>
     <hr>
 
-    {{-- edit btn --}}
-        <a href="/posts/{{$post->id}}/edit" class="btn btn-secondary">Edit</a>
+    {{-- if user is not a guest they can see these codes below --}}
+    @if(!Auth::guest())
 
-    {{-- delete btn --}}
-        {!!Form::open(['action' => ['App\Http\Controllers\PostsController@destroy', $post->id], 'method' => 'POST', 'class' => 'float-right'])!!}
-            {{Form::hidden('_method', 'DELETE')}}
-            {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
-        {!!Form::close()!!}
+        @if(Auth::user()->id == $post->user_id)
+            {{-- edit btn --}}
+            <a href="/posts/{{$post->id}}/edit" class="btn btn-secondary">Edit</a>
+
+            {{-- delete btn --}}
+            {!!Form::open(['action' => ['App\Http\Controllers\PostsController@destroy', $post->id], 'method' => 'POST', 'class' => 'float-right'])!!}
+                {{Form::hidden('_method', 'DELETE')}}
+                {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
+            {!!Form::close()!!}
+        @endif
+    @endif
 </div>
 @endsection
